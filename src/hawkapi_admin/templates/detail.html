@@ -21,6 +21,7 @@
   {% if resource.can_update %}<a class="button" href="{{ admin.url_prefix }}/{{ resource.name }}/{{ obj | attr(resource.primary_key) }}/edit">Edit</a>{% endif %}
   {% if resource.can_delete %}
   <form method="post" action="{{ admin.url_prefix }}/{{ resource.name }}/{{ obj | attr(resource.primary_key) }}/delete" style="display:inline">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
     <button class="danger" type="submit" onclick="return confirm('Delete this {{ resource.label | lower }}?')">Delete</button>
   </form>
   {% endif %}

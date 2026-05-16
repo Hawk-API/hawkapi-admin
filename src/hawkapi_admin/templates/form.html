@@ -10,6 +10,8 @@
 
 <form method="post"
       action="{{ admin.url_prefix }}/{{ resource.name }}{% if obj %}/{{ obj | attr(resource.primary_key) }}/edit{% else %}/new{% endif %}">
+  <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+  {% if errors.get('_form') %}<div style="color:var(--danger); margin-bottom:8px">{{ errors['_form'] }}</div>{% endif %}
   {% for fs in resource.editable_fields() %}
   {% set widget = widget_for(fs) %}
   {% set value = values.get(fs.name, '') %}

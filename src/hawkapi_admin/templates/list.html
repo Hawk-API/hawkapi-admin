@@ -32,9 +32,9 @@
 
 {% if pages > 1 %}
 <div class="pagination">
-  {% if page > 1 %}<a class="button secondary" href="?page={{ page - 1 }}{% if q %}&q={{ q }}{% endif %}">‹ Prev</a>{% endif %}
+  {% if page > 1 %}<a class="button secondary" href="?page={{ page - 1 }}{% if q %}&q={{ q | urlencode }}{% endif %}">‹ Prev</a>{% endif %}
   <span class="muted" style="align-self:center">Page {{ page }} of {{ pages }}</span>
-  {% if page < pages %}<a class="button secondary" href="?page={{ page + 1 }}{% if q %}&q={{ q }}{% endif %}">Next ›</a>{% endif %}
+  {% if page < pages %}<a class="button secondary" href="?page={{ page + 1 }}{% if q %}&q={{ q | urlencode }}{% endif %}">Next ›</a>{% endif %}
 </div>
 {% endif %}
 

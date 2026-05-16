@@ -2,12 +2,16 @@
 
 from __future__ import annotations
 
+import re
+import warnings
 from dataclasses import dataclass, field
 from typing import Any
 
 from sqlalchemy.orm import DeclarativeBase
 
 from ._inspect import FieldSpec, list_fields, primary_key_column
+
+_SENSITIVE_NAME_RE = re.compile(r"(password|secret|token|key|hash)$", re.IGNORECASE)
 
 
 @dataclass
@@ -64,6 +68,16 @@ class ModelResource:
             self.list_display = tuple(f.name for f in self._fields)
         if not self.form_fields:
             self.form_fields = tuple(f.name for f in self._fields if not f.primary_key)
+        for name in self.form_fields:
+            if name in self.readonly_fields:
+                continue
+            if _SENSITIVE_NAME_RE.search(name):
+                warnings.warn(
+                    f"hawkapi-admin: field {self.model.__name__}.{name} looks "
+                    f"sensitive but is not in readonly_fields",
+                    UserWarning,
+                    stacklevel=2,
+                )
 
     @property
     def fields(self) -> list[FieldSpec]:

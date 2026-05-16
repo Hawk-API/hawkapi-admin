@@ -12,7 +12,7 @@ from ._admin import Admin, init_admin
 from ._inspect import FieldSpec, coerce_value, list_fields, primary_key_column, widget_for
 from ._resource import ModelResource
 
-__version__ = "0.1.1"
+__version__ = "0.2.0"
 
 __all__ = [
     "Admin",

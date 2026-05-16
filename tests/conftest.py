@@ -35,9 +35,13 @@ def app() -> HawkAPI:
     return app
 
 
+async def _noop_auth(_request: Any) -> None:
+    return None
+
+
 @pytest.fixture
 def admin(app: HawkAPI) -> Admin:
-    a = Admin(title="Test Admin")
+    a = Admin(title="Test Admin", auth=_noop_auth, csrf_enabled=False)
     a.register(ModelResource(model=User, list_search=("email",)))
     a.attach(app)
     return a
